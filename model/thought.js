@@ -1,6 +1,6 @@
 const {Schema,model, Types}= require("mongoose");
 const moment = require('moment');
-const { moveMessagePortToContext } = require("worker_threads");
+
 const reactionSchema = new Schema({
     reactionId:{
         type:Schema.Types.ObjectId,
@@ -22,7 +22,7 @@ const reactionSchema = new Schema({
     },
 
 });
-const ThoughtSchema = new Schema(
+const thoughtSchema = new Schema(
     {
         thoughtText:{
             type:String,
@@ -35,7 +35,7 @@ const ThoughtSchema = new Schema(
             default:Date.now,
             get:(createdAtVal) => moment (createdAtVal).format ("MMM DD, YYYY [at] hh:mm a")
         },
-        usernma:{
+        username:{
             type:String,
             required:true
         },
@@ -50,8 +50,8 @@ const ThoughtSchema = new Schema(
     }
     
     );
-    ThoughtSchema.virtuals("reactionCount").get(function(){
+    thoughtSchema.virtual("reactionCount").get(function(){
         return this.reactions.length;
     });
-    const Thought = model("Thoughts",ThoughtSchema);
+    const Thought = model("thought",thoughtSchema);
     module.exports =Thought;
